@@ -50,8 +50,8 @@ function App() {
     <>
       <h1>Upload PDF</h1>
       <form onSubmit={handleFormSubmit}>
-        <input type="file" name="pdf" accept=".pdf" required ref={fileInputRef}/>
-        <button type="submit">Upload</button>
+        <input className='uploadInput' type="file" name="pdf" accept=".pdf" required ref={fileInputRef}/>
+        <button className='uploadButton' type="submit">Upload</button>
       </form>
 
       <h1>Applicants List</h1>
@@ -65,9 +65,21 @@ function App() {
         <tbody>
           {applicants.map(applicant => (
             <tr key={applicant._id}>
-              <td>{applicant.id}</td>
-              <td>{applicant.name}</td>
-              <td>{applicant.linkedin}</td>
+              <td>{applicant.id || "-"}</td>
+              <td className='name'>
+                {applicant.firstName || applicant.lastName
+                ? `${applicant.firstName || ''} ${applicant.lastName}`
+                : '-'}
+              </td>
+              <td>
+              {applicant.linkedin ? (
+                <a href={applicant.linkedin} target="_blank" rel="noopener noreferrer">
+                  Open
+                </a>
+              ) : (
+                '-'
+              )}
+              </td>
               <td><a href={`http://localhost:3000/download/${applicant._id}`} target="_blank">Download PDF</a></td>
             </tr>
           ))}
